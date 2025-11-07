@@ -6,6 +6,8 @@ class User {
 - String password
 +createUser(String username, String password)
 +login(String username, String password)
++savedMedia()
++watchedMedia()
 }
 
 abstract class Media {
@@ -17,11 +19,6 @@ abstract class Media {
 }
 
 class Movie extends Media {
-    - String title
-    - String category
-    - int duration
-    - int rating
-    - int releaseYear
 }
 
 class HeadMenu {
@@ -35,17 +32,14 @@ class HeadMenu {
     +{static}addMediaToWatched()
 }
 
+class FileIO{
+}
+
 class App {
     +startApp()
 }
 
 class Series extends Media {
-    - String title
-    - String category
-    - int duration
-    - int rating
-    - int releaseYear
-
     - int seasons
     - int episodes
 }
