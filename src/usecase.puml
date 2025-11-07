@@ -1,0 +1,47 @@
+@startuml
+
+  actor user
+
+  usecase "StartApp"
+  usecase "StartMenu"
+  usecase "Login"
+  usecase "LavUser"
+  usecase "GemUserData"
+  usecase "HovedMenu"
+  usecase "SøgFilm"
+  usecase "SøgFilmIKategori"
+  usecase "SeSeteFilm"
+  usecase "SeGemteFilm"
+  usecase "VælgFilm"
+  usecase "AfspilFilm"
+  usecase "TilføjTilSeteFilm"
+  usecase "TilføjTilGemteFilm"
+  usecase "SletFilmFraListe"
+  usecase GemteFilmData
+  usecase SeteFilmData
+
+
+
+user --> StartApp
+StartApp --> StartMenu
+StartMenu --> Login
+StartMenu --> LavUser
+LavUser --> GemUserData
+LavUser --> "HovedMenu"
+Login --> "HovedMenu"
+HovedMenu --> "SøgFilm"
+HovedMenu --> "SøgFilmIKategori"
+HovedMenu --> "SeSeteFilm"
+HovedMenu --> "SeGemteFilm"
+"SøgFilm" --> "VælgFilm"
+"SøgFilmIKategori" --> "VælgFilm"
+"SeSeteFilm" --> "VælgFilm"
+"SeGemteFilm" --> "VælgFilm"
+"VælgFilm" --> "AfspilFilm"
+"AfspilFilm" --> "TilføjTilSeteFilm"
+VælgFilm --> "SletFilmFraListe"
+"VælgFilm" --> "TilføjTilGemteFilm"
+"TilføjTilGemteFilm" --> GemteFilmData
+"TilføjTilSeteFilm" --> SeteFilmData
+
+@enduml
