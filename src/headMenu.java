@@ -19,7 +19,7 @@ public class headMenu {
                 break;
             }
             else if (movies.contains(title)){
-                showOptions(title);
+                movieOptions(title);
                 titleFound = true;
             }
             else {
