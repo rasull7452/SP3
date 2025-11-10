@@ -33,21 +33,21 @@ public class headMenu {
     }
 
     public void movieOptions(String title){
-        System.out.println("*** Movie Options ***");
-        System.out.println("1. Play movie");
+        ui.displayMsg("*** Movie Options ***");
+        ui.displayMsg("1. Play movie");
         boolean saved = checkIfSaved(title);
         if (!saved) {
-            System.out.println("2. Add to saved");
+            ui.displayMsg("2. Add to saved");
         }
         else {
-            System.out.println("2. Remove from saved");
+            ui.displayMsg("2. Remove from saved");
         }
-        System.out.println("0. Go back");
+        ui.displayMsg("0. Go back");
 
-        int decision = ui.promptNumeric();
+        int decision = ui.promptNumeric("Enter an integer: ");
 
         if (decision == 0) {
-            System.out.println("Going back");
+            ui.displayMsg("Going back");
         } else if  (decision == 1) {
             playTitle(title);
         } else if (decision == 2) {
@@ -58,7 +58,7 @@ public class headMenu {
                 saveTitle(title);
             }
         } else {
-            System.out.println("Invalid option");
+            ui.displayMsg("Invalid option");
         }
     }
 
