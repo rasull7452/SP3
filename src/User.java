@@ -1,6 +1,11 @@
 import util.FileIO;
 import util.TextUI;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class User {
@@ -23,11 +28,32 @@ public class User {
         user.add(chosenUsername);
         user.add(chosenPassword);
 
-        if(!chosenPassword.equals(chosenUsername)){
-            io.saveData(user, chosenUsername, "User: " + chosenUsername);
-        } else {
-            ui.displayMsg("Your password cannot be the same as your username, try again");
-            createUser();
+        String dirName1 = "Users//" + chosenUsername;
+
+        Path path1 = Paths.get(dirName1);
+
+        if(chosenPassword.equals(chosenUsername)){
+
+            ui.displayMsg("Your password cannot be the same as your username");
+
+        } else if(!Files.notExists(path1)) {
+
+            ui.displayMsg("This user already exists, use a different username");
+
+        } else{
+            String localUserPath = "Users//" + chosenUsername + "//" + chosenUsername + ".txt";
+            String dirName = "Users//" + chosenUsername;
+
+            Path path = Paths.get(dirName);
+            if(Files.notExists(path)){
+                try {
+                    Files.createDirectory(path);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            io.saveData(user, localUserPath, "User: " + chosenUsername);
         }
     }
 
@@ -39,6 +65,8 @@ public class User {
 
         if(usernameInput.equals(userData[0]) && passwordInput.equals(userData[1])){
             ui.displayMsg("You have logged in successfully");
+            String loggedInUsername = usernameInput;
+            String loggedInPassword = passwordInput;
         } else{
             ui.displayMsg("Login unsuccessful: You have entered the wrong details");
         }

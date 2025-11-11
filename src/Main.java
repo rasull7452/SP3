@@ -5,6 +5,6 @@ public class Main {
 
         User u = new User();
         u.createUser();
-        u.login();
+        //u.login();
     }
 }
