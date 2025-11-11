@@ -11,9 +11,9 @@ public class TextUI {
     public ArrayList<String> promptChoice( ArrayList<String> options, int limit, String msg){
         displayMsg(msg);
         displayList(options, "");
-        ArrayList<String> choices = new ArrayList<>();
+        ArrayList<String> choices = new ArrayList<>();  //Lave en beholder til at gemme brugerens valg
 
-        while(choices.size() < limit){
+        while(choices.size() < limit){             //tjekke om brugeren skal vælge igen
 
             int choice = promptNumeric(msg);
             choices.add(options.get(choice-1));
