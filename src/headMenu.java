@@ -17,6 +17,9 @@ public class headMenu {
     }
 
     //Brugerens gemte medier
+    public static void startMenu(){
+        
+    }
 
     public void showSavedMedia() {
         System.out.println("\n--- Dine gemte film og serier ---");
