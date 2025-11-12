@@ -1,10 +1,9 @@
-import util.User;
 import media.Media;
 import util.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class headMenu {
+public class HeadMenu {
     public FileIO io = new FileIO();
     public TextUI ui = new TextUI();
     private User currentUser;
@@ -12,7 +11,7 @@ public class headMenu {
     private ArrayList<Media> allMedia = new ArrayList<>();
     public ArrayList<String> movies = new ArrayList<>();
 
-    public headMenu(User currentUser) {
+    public HeadMenu(User currentUser) {
         this.currentUser = currentUser;
 
     }
