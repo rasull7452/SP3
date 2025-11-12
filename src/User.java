@@ -1,3 +1,4 @@
+package util;
 import util.FileIO;
 import util.TextUI;
 
@@ -7,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import media.Media;
 
 public class User {
     String username;
@@ -17,6 +19,18 @@ public class User {
     TextUI ui = new TextUI();
     FileIO io = new FileIO();
     ArrayList<String> user = new ArrayList<>();
+
+    private ArrayList<Media> savedMedia = new ArrayList<>();
+    private ArrayList<Media>watchedMedia = new ArrayList<>();
+
+    //getter metode til headMenu
+    public ArrayList<Media>getSavedMedia() {
+        return savedMedia;
+    }
+
+    public ArrayList<Media> getWatchedMedia(){
+        return watchedMedia;
+    }
 
     public User(){
     }
