@@ -36,18 +36,15 @@ public class App {
 
         ArrayList<String> choice = ui.promptChoice(loginOrCreateUser, 1, "Do you want to login or create a user?");
 
-        String chosen = choice.get(0);
+        String chosen = choice.getFirst();
 
-        switch(chosen){
-            case "Login":
-                user.login();
-                break;
-            case "Create User":
-                user.createUser();
-                break;
-            default:
-                ui.displayMsg("Invalid choice!");
-                startApp();
+        if(chosen.equals("Login")){
+            user.login();
+        } else if(chosen.equals("Create User")){
+            user.createUser();
+        } else {
+            ui.displayMsg("Press 1 or 2");
+            startApp();
         }
     }
 }
