@@ -15,4 +15,23 @@ public abstract class Media {
         this.rating = rating;
         this.releaseYear = releaseYear;
     }
+
+    public String getTitleName(){
+        return title;
+    }
+    public String getCategoryName(){
+        return category;
+    }
+    public String getCategory(){
+        return category;
+    }
+    public int getDuration(){
+        return duration;
+    }
+    public int getRating(){
+        return rating;
+    }
+    public int getReleaseYear(){
+        return releaseYear;
+    }
 }
