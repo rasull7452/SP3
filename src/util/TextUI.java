@@ -12,11 +12,20 @@ public class TextUI {
         displayMsg(msg);
         displayList(options, "");
         ArrayList<String> choices = new ArrayList<>();
-
         while(choices.size() < limit){
 
-            int choice = promptNumeric("");
-            choices.add(options.get(choice-1));
+            int choice = 0;
+            try { //tester choice og kører hvis det er fint
+                choice = promptNumeric("");
+            } catch (Exception e) { //får choice til at køre igen hvis input er valid invalid
+
+                choice = promptNumeric("");
+            }
+            if (choice >= 1 && choice <= options.size()) {
+                choices.add(options.get(choice - 1));
+            } else {
+                displayMsg("Please enter a number between 1 and " + options.size());
+            }
         }
         return choices;
     }
@@ -35,7 +44,6 @@ public class TextUI {
         displayMsg(msg);                       //Stille brugeren et spørgsmål
         String input = sc.nextLine();                  //Give brugere et sted at placere sit svar og vente på svaret
         int numInput = Integer.parseInt(input);        //Konvertere svaret til et tal
-
         return numInput;
     }
 

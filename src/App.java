@@ -45,7 +45,6 @@ public class App {
                     ui.displayMsg("Invalid input");
                 }
             }
-
             String chosen = choice.get(0);
             switch(chosen){
                 case "Login":
@@ -58,6 +57,7 @@ public class App {
                     ui.displayMsg("Invalid choice!");
             }
             if (loginSuccesful){
+                headMenu.startMenu();
                 break;
             }
         }

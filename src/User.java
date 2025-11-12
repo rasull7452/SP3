@@ -1,6 +1,4 @@
-import util.FileIO;
-import util.TextUI;
-
+import util.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -8,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Array;
 import java.util.ArrayList;
+import media.Media;
 
 public class User {
     String username;
@@ -22,6 +21,18 @@ public class User {
     ArrayList<String> user = new ArrayList<>();
     ArrayList<String> savedMovies = new ArrayList<>();
     ArrayList<String> watchedMovies = new ArrayList<>();
+
+    private ArrayList<Media> savedMedia = new ArrayList<>();
+    private ArrayList<Media>watchedMedia = new ArrayList<>();
+
+    //getter metode til headMenu
+    public ArrayList<Media>getSavedMedia() {
+        return savedMedia;
+    }
+
+    public ArrayList<Media> getWatchedMedia(){
+        return watchedMedia;
+    }
 
     public User(){
     }
