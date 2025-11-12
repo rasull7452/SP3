@@ -7,7 +7,6 @@
 //    public ArrayList<String> movies = new ArrayList<>();
 //
 //    public headMenu(){
-//
 //    }
 //
 //    public void searchMedia(){
@@ -76,4 +75,7 @@
 //            System.out.println(title);
 //        }
 //    }
+//
+//
+//
 //}

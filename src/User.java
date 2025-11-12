@@ -26,7 +26,7 @@ public class User {
     public User(){
     }
 
-    public void createUser(){
+    public boolean createUser(){
         String chosenUsername = ui.promptText("Choose a username");
         String chosenPassword = ui.promptText("Choose a password");
 
@@ -63,12 +63,12 @@ public class User {
             io.saveData(user, localUserPath + "user.txt", "User: " + chosenUsername);
             io.saveData(savedMovies, localUserPath + "saved_movies.txt", chosenUsername + ": Saved Movies");
             io.saveData(watchedMovies, localUserPath + "watched_movies.txt", chosenUsername + ": Watched Movies");
-            ui.displayMsg("Login");
-            login();
         }
+        ui.displayMsg("Login");
+        return login();
     }
 
-    public void login(){
+    public boolean login(){
         String usernameInput = ui.promptText("Username: ");
         String passwordInput = ui.promptText("Password: ");
 
@@ -78,10 +78,11 @@ public class User {
             ui.displayMsg("You are logged in as " + usernameInput);
             loggedInUser.add(usernameInput);
             loggedInUser.add(passwordInput);
+            return true;
 
         } else{
             ui.displayMsg("Login unsuccessful: You have entered the wrong details");
-            App.startApp();
+            return false;
         }
     }
 

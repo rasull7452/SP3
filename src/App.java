@@ -30,24 +30,36 @@ public class App {
                 throw new RuntimeException(e);
             }
         }
-
         loginOrCreateUser.add("Login");
         loginOrCreateUser.add("Create User");
 
-        ArrayList<String> choice = ui.promptChoice(loginOrCreateUser, 1, "Do you want to login or create a user?");
+        while (true){
+            boolean loginSuccesful = false;
+            ArrayList<String> choice;
+            while(true){
+                try{
+                    choice = ui.promptChoice(loginOrCreateUser, 1, "Do you want to login or create a user?");
+                    break;
+                }
+                catch (Exception e){
+                    ui.displayMsg("Invalid input");
+                }
+            }
 
-        String chosen = choice.get(0);
-
-        switch(chosen){
-            case "Login":
-                user.login();
+            String chosen = choice.get(0);
+            switch(chosen){
+                case "Login":
+                    loginSuccesful = user.login();
+                    break;
+                case "Create User":
+                    loginSuccesful = user.createUser();
+                    break;
+                default:
+                    ui.displayMsg("Invalid choice!");
+            }
+            if (loginSuccesful){
                 break;
-            case "Create User":
-                user.createUser();
-                break;
-            default:
-                ui.displayMsg("Invalid choice!");
-                startApp();
+            }
         }
     }
 }
