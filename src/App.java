@@ -1,6 +1,5 @@
 import util.FileIO;
 import util.TextUI;
-import util.User;
 
 import java.io.IOException;
 import java.nio.file.Files;

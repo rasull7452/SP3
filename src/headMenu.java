@@ -1,4 +1,3 @@
-import util.User;
 import media.Media;
 import util.*;
 import java.util.ArrayList;
@@ -7,10 +6,12 @@ import java.util.Scanner;
 public class headMenu {
     public FileIO io = new FileIO();
     public TextUI ui = new TextUI();
+    private User user = new User();
     private User currentUser;
     private Scanner input = new Scanner(System.in);
     private ArrayList<Media> allMedia = new ArrayList<>();
     public ArrayList<String> movies = new ArrayList<>();
+    private ArrayList<String>
 
     public headMenu(User currentUser) {
         this.currentUser = currentUser;
@@ -62,18 +63,9 @@ public class headMenu {
         }
     }
 
-    public void addMediaToWatched() {
+    public void addMediaToWatched(String title) {
+        user.getLoggedInUser();
 
-        String title = input.nextLine();
-        Media found = findMediaByTitle(title);
-        if (found != null) {
-            if (!currentUser.getWatchedMedia().contains(found)) {
-                currentUser.getWatchedMedia().add(found);
-                System.out.println("Dette medie er allerede markeret som set. ");
-            }
-        } else {
-            System.out.println("Mediet blev ikke fundet.");
-        }
     }
     // til at finde et medie i allMedia
     private Media findMediaByTitle(String title) {
@@ -164,8 +156,8 @@ public class headMenu {
     }
 
     private void playTitle(String title){
-        System.out.println("Playing " + title + "...");
-        addMediaToWatched();
+        ui.displayMsg("Playing " + title + "...");
+        addMediaToWatched(title);
     }
     private void saveTitle(String title){
         Media m = findMediaByTitle(title);
