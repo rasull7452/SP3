@@ -7,10 +7,10 @@ import java.util.Scanner;
 public class headMenu {
     public FileIO io = new FileIO();
     public TextUI ui = new TextUI();
-    public ArrayList<Media> movies = new ArrayList<>();
     private User currentUser;
     private Scanner input = new Scanner(System.in);
     private ArrayList<Media> allMedia = new ArrayList<>();
+    public ArrayList<String> movies = new ArrayList<>();
 
     public headMenu(User currentUser) {
         this.currentUser = currentUser;
@@ -47,7 +47,7 @@ public class headMenu {
 
     // Et medie til brugerens gemte liste
     public void addMediaToSaved() {
-        System.out.println("\nIndtast titlen på mediet, du vil gemme: ");
+        ui.displayMsg("\nIndtast titlen på mediet, du vil gemme: ");
         String title = input.nextLine();
         Media found = findMediaByTitle(title);
         if (found != null) {
@@ -63,7 +63,7 @@ public class headMenu {
     }
 
     public void addMediaToWatched() {
-        System.out.println("\nIndtast titlen på mediet, du har set: ");
+
         String title = input.nextLine();
         Media found = findMediaByTitle(title);
         if (found != null) {
@@ -88,7 +88,7 @@ public class headMenu {
 
 
     public void searchMedia(){
-        ArrayList<Media> movies = loadMovies();
+        ArrayList<String> movies = loadMovies();
         boolean titleFound = false;
         while(!titleFound){
             String title = ui.promptText("Please enter a title: ");
@@ -105,7 +105,7 @@ public class headMenu {
         }
     }
 
-    public ArrayList<String> loadMoviepublic; ArrayList<Media> loadMovies(){
+    public ArrayList<String> loadMovies(){
         return movies;
     }
 
@@ -143,7 +143,7 @@ public class headMenu {
         loadMovies();
         String category = ui.promptText("Please enter a category: ");
         ArrayList<String> categoryList = new ArrayList<>();
-        for (Media movie : movies){
+        for (Media movie : allMedia){
             if (movie.getCategory().equalsIgnoreCase(category)) {
                 categoryList.add(movie.getTitleName());
             }
@@ -165,6 +165,7 @@ public class headMenu {
 
     private void playTitle(String title){
         System.out.println("Playing " + title + "...");
+        addMediaToWatched();
     }
     private void saveTitle(String title){
         Media m = findMediaByTitle(title);
