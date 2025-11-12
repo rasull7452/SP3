@@ -15,7 +15,7 @@ public class TextUI {
 
         while(choices.size() < limit){
 
-            int choice = promptNumeric(msg);
+            int choice = promptNumeric("");
             choices.add(options.get(choice-1));
         }
         return choices;

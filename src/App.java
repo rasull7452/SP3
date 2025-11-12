@@ -9,21 +9,21 @@ import java.util.ArrayList;
 
 public class App {
 
-    TextUI ui = new TextUI();
+    static TextUI ui = new TextUI();
     FileIO io = new FileIO();
 
-    public App(){
+    public App() {
 
     }
 
-    public void startApp(){
-        User user = new User();
+    public static void startApp() {
         ArrayList<String> loginOrCreateUser = new ArrayList<>();
+        User user = new User();
 
         String dirName = "Users";
 
         Path path = Paths.get(dirName);
-        if(Files.notExists(path)){
+        if (Files.notExists(path)) {
             try {
                 Files.createDirectory(path);
             } catch (IOException e) {
@@ -34,10 +34,20 @@ public class App {
         loginOrCreateUser.add("Login");
         loginOrCreateUser.add("Create User");
 
+        ArrayList<String> choice = ui.promptChoice(loginOrCreateUser, 1, "Do you want to login or create a user?");
 
-        if(ui.promptChoice(loginOrCreateUser, 1, "Do you want to login or create a user?").equals(loginOrCreateUser.get(0))){
-            user.login();
+        String chosen = choice.get(0);
+
+        switch(chosen){
+            case "Login":
+                user.login();
+                break;
+            case "Create User":
+                user.createUser();
+                break;
+            default:
+                ui.displayMsg("Invalid choice!");
+                startApp();
         }
-
     }
 }
