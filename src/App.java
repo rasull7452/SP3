@@ -57,7 +57,7 @@ public class App {
                     ui.displayMsg("Invalid choice!");
             }
             if (loginSuccesful){
-                HeadMenu.startMenu();
+                headMenu.startMenu();
                 break;
             }
         }
