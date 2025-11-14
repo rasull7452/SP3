@@ -1,81 +1,149 @@
 import media.Media;
 import util.*;
+import media.*;
+
+import java.io.File;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class HeadMenu {
-    public FileIO io = new FileIO();
-    public TextUI ui = new TextUI();
-    private User currentUser;
+    public static FileIO io = new FileIO();
+    public static TextUI ui = new TextUI();
+    // private static User user = new User();
+    private static User currentUser = new User();
     private Scanner input = new Scanner(System.in);
-    private ArrayList<Media> allMedia = new ArrayList<>();
-    public ArrayList<String> movies = new ArrayList<>();
+    private static ArrayList<String> watchedMovies = new ArrayList<>();
+    private static ArrayList<String> savedMovies = new ArrayList<>();
+    private static ArrayList<Media> allMedia = new ArrayList<>();
+    public static ArrayList<String> movies = new ArrayList<>();
 
-    public HeadMenu(User currentUser) {
-        this.currentUser = currentUser;
+    public HeadMenu() {
 
     }
 
     //Brugerens gemte medier
 
-    public void showSavedMedia() {
-        System.out.println("\n--- Dine gemte film og serier ---");
-        ArrayList<Media> savedList = currentUser.getSavedMedia();
+    public static void showSavedMedia() {
+        ArrayList<String> loggedInUser = App.user.getLoggedInUser();
 
-        if (savedList.isEmpty()) {
-            System.out.println("Du har ingen gemte medier endnu.");
-            return;
+        File file = new File("Users//" + loggedInUser.get(0) + "//" + "saved_movies.txt");
+
+        if(!file.exists()){
+
+            ui.displayMsg("Du har ikke nogen gemte film");
+
+        } else {
+
+            savedMovies = io.readData("Users//" + loggedInUser.get(0) + "//" + "saved_movies.txt");
+
+            ui.displayMsg("---- Saved Movies ----");
+            for(String savedMovie : savedMovies){
+                ui.displayMsg(savedMovie);
+            }
         }
-        for (int i = 0; i < savedList.size(); i++) {
-            System.out.println((i + 1) + ". " + savedList.get(i).getTitleName());
+    }
+
+    public static void showHeadMenu(){
+        ArrayList<String> headMenuOptions = new ArrayList<>();
+
+        headMenuOptions.add("Søg film");
+        headMenuOptions.add("Søg film ud fra kategori");
+        headMenuOptions.add("Se liste over sete film");
+        headMenuOptions.add("Se liste over gemte film");
+
+        ArrayList<String> choice = ui.promptChoice(headMenuOptions, 1, "Main Menu");
+
+        String chosen = choice.getFirst();
+
+        if(chosen.equals("Søg film")){
+            searchMedia();
+        } else if(chosen.equals("Søg film ud fra kategori")){
+            searchCategory();
+        }
+        else if(chosen.equals("Se liste over sete film")){
+            showWatchedMedia();
+        }
+        else if(chosen.equals("Se liste over gemte film")){
+            showSavedMedia();
+        }
+        else {
+            ui.displayMsg("Press a number between 1 and 4");
+            showHeadMenu();
         }
     }
 
     //brugerens sete medier
-    public void showWatchedMedia() {
-        System.out.println("\n--- Dine sete film og serier ---");
-        ArrayList<Media> watchedList = currentUser.getWatchedMedia();
-        if (watchedList.isEmpty()) {
-            System.out.println("Du har endnu ikke set nogen medier.");
-            return;
-        }
-        for (int i = 0; i < watchedList.size(); i++) {
-            System.out.println((i + 1) + ". " + watchedList.get(i).getTitleName());
+    public static void showWatchedMedia() {
+        ArrayList<String> loggedInUser = App.user.getLoggedInUser();
+
+        File file = new File("Users//" + loggedInUser.get(0) + "//" + "watched_movies.txt");
+
+        if(!file.exists()){
+
+            ui.displayMsg("Du har ikke nogen sete film");
+
+        } else {
+
+            watchedMovies = io.readData("Users//" + loggedInUser.get(0) + "//" + "watched_movies.txt");
+
+            ui.displayMsg("---- Watched Movies ----");
+            for(String watchedMovie : watchedMovies){
+                ui.displayMsg(watchedMovie);
+            }
         }
     }
 
     // Et medie til brugerens gemte liste
-    public void addMediaToSaved() {
-        ui.displayMsg("\nIndtast titlen på mediet, du vil gemme: ");
-        String title = input.nextLine();
-        Media found = findMediaByTitle(title);
-        if (found != null) {
-            if (!currentUser.getSavedMedia().contains(found)) {
-                currentUser.getSavedMedia().add(found);
-                System.out.println(found.getTitleName() + " er nu gemt til senere.");
-            } else {
-                System.out.println("Dette medie er allerede gemt.");
-            }
+    public static void addMediaToSaved(String title) {
+        ArrayList<String> loggedInUser = App.user.getLoggedInUser();
+
+        File file = new File("Users//" + loggedInUser.get(0) + "//" + "saved_movies.txt");
+
+        if(!file.exists()){
+
+            savedMovies.add(title);
+            io.saveData(savedMovies,"Users//" + loggedInUser.get(0) + "//" + "saved_movies.txt",  loggedInUser.get(0) + ": Saved Movies");
+
         } else {
-            System.out.println("Mediet blev ikke fundet.");
+
+            savedMovies = io.readData("Users//" + loggedInUser.get(0) + "//" + "saved_movies.txt");
+            savedMovies.add(title);
+
+            io.saveData(savedMovies,"Users//" + loggedInUser.get(0) + "//" + "saved_movies.txt",  loggedInUser.get(0) + ": Saved Movies");
+
         }
+
+        ui.displayMsg("You have added " + title + " to your saved movies");
+        showHeadMenu();
     }
 
-    public void addMediaToWatched() {
+    public static void addMediaToWatched(String title) {
+        ArrayList<String> loggedInUser = App.user.getLoggedInUser();
 
-        String title = input.nextLine();
-        Media found = findMediaByTitle(title);
-        if (found != null) {
-            if (!currentUser.getWatchedMedia().contains(found)) {
-                currentUser.getWatchedMedia().add(found);
-                System.out.println("Dette medie er allerede markeret som set. ");
-            }
+        File file = new File("Users//" + loggedInUser.get(0) + "//" + "watched_movies.txt");
+
+        if(!file.exists()){
+
+            watchedMovies.add(title);
+            io.saveData(watchedMovies,"Users//" + loggedInUser.get(0) + "//" + "watched_movies.txt",  loggedInUser.get(0) + ": Watched Movies");
+
         } else {
-            System.out.println("Mediet blev ikke fundet.");
+
+            watchedMovies = io.readData("Users//" + loggedInUser.get(0) + "//" + "watched_movies.txt");
+            watchedMovies.add(title);
+
+            io.saveData(watchedMovies,"Users//" + loggedInUser.get(0) + "//" + "watched_movies.txt",  loggedInUser.get(0) + ": Watched Movies");
+
         }
+        ui.displayMsg(title + " has been added to your watched movies list");
+        showHeadMenu();
     }
+
     // til at finde et medie i allMedia
-    private Media findMediaByTitle(String title) {
+    private static Media findMediaByTitle(String title) {
         for (Media m : allMedia) {
             if (m.getTitleName().equalsIgnoreCase(title)) {
                 return m;
@@ -86,7 +154,7 @@ public class HeadMenu {
 
 
 
-    public void searchMedia(){
+    public static void searchMedia(){
         ArrayList<String> movies = loadMovies();
         boolean titleFound = false;
         while(!titleFound){
@@ -104,11 +172,33 @@ public class HeadMenu {
         }
     }
 
-    public ArrayList<String> loadMovies(){
-        return movies;
+    public static ArrayList<String> loadMovies(){
+        ArrayList<String> movieData = io.readData("src//data//film.csv");
+        ArrayList<String> movieTitles = new ArrayList<>();
+        for(String m : movieData){
+            String[] values =  m.split(";");
+            Movie movie = new Movie(
+                    values[0].trim(), Integer.parseInt(values[1].trim()), values[2].trim(), parseDoubleComma(values[3].trim()));
+            allMedia.add(movie);
+            movieTitles.add(values[0].trim());
+        }
+        ui.displayMsg(movieTitles.toString());
+        return movieTitles;
     }
 
-    public void movieOptions(String title){
+    public static double parseDoubleComma(String numberToParse){
+        NumberFormat nf = NumberFormat.getInstance(Locale.GERMANY); // or Locale.FRANCE, etc.
+        try {
+            Number number = nf.parse(numberToParse);
+            return number.doubleValue();
+            // Output: 3.14
+        } catch (ParseException e) {
+            System.err.println("Cannot parse: " + numberToParse);
+        }
+        return 0;
+    }
+
+    public static void movieOptions(String title){
         ui.displayMsg("*** Movie Options ***");
         ui.displayMsg("1. Play movie");
         boolean saved = checkIfSaved(title);
@@ -131,14 +221,14 @@ public class HeadMenu {
                 removeTitle(title);
             }
             else {
-                saveTitle(title);
+                addMediaToSaved(title);
             }
         } else {
             ui.displayMsg("Invalid option");
         }
     }
 
-    public void searchCategory(){
+    public static void searchCategory(){
         loadMovies();
         String category = ui.promptText("Please enter a category: ");
         ArrayList<String> categoryList = new ArrayList<>();
@@ -153,7 +243,7 @@ public class HeadMenu {
         }
     }
 
-    private boolean checkIfSaved(String title){
+    private static boolean checkIfSaved(String title){
         for (Media m : currentUser.getSavedMedia()){
             if (m.getTitleName().equalsIgnoreCase(title)){
                 return true;
@@ -162,18 +252,19 @@ public class HeadMenu {
         return false;
     }
 
-    private void playTitle(String title){
+    private static void playTitle(String title){
         System.out.println("Playing " + title + "...");
-        addMediaToWatched();
+        addMediaToWatched(title);
     }
-    private void saveTitle(String title){
+
+    private static void saveTitle(String title){
         Media m = findMediaByTitle(title);
         if (m != null && !currentUser.getSavedMedia().contains(m)) {
             currentUser.getSavedMedia().add(m);
             System.out.println(title + " er nu gemt.");
         }
     }
-    private void removeTitle(String title){
+    private static void removeTitle(String title){
         Media m = findMediaByTitle(title);
         if (m != null && currentUser.getSavedMedia().contains(m)) {
             currentUser.getSavedMedia().remove(m);

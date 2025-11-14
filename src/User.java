@@ -10,7 +10,7 @@ import java.sql.Array;
 import java.util.ArrayList;
 import media.Media;
 
-public class User {
+public class User{
     String username;
     String password;
 
@@ -24,19 +24,23 @@ public class User {
     ArrayList<String> savedMovies = new ArrayList<>();
     ArrayList<String> watchedMovies = new ArrayList<>();
 
+    private ArrayList<String> savedTitles = new ArrayList<>();
+    private ArrayList<String> watchedTitles = new ArrayList<>();
+
     private ArrayList<Media> savedMedia = new ArrayList<>();
-    private ArrayList<Media>watchedMedia = new ArrayList<>();
+    private ArrayList<Media> watchedMedia = new ArrayList<>();
+
+    public User(){
+    }
+
 
     //getter metode til headMenu
-    public ArrayList<Media>getSavedMedia() {
+    public ArrayList<Media> getSavedMedia() {
         return savedMedia;
     }
 
-    public ArrayList<Media> getWatchedMedia(){
+    public ArrayList<Media> getWatchedMedia() {
         return watchedMedia;
-    }
-
-    public User(){
     }
 
     public void createUser(){
@@ -89,8 +93,10 @@ public class User {
 
         if(usernameInput.equals(userData[0]) && passwordInput.equals(userData[1])){
             ui.displayMsg("You are logged in as " + usernameInput);
+            loggedInUser.clear();
             loggedInUser.add(usernameInput);
             loggedInUser.add(passwordInput);
+            HeadMenu.showHeadMenu();
 
         } else{
             ui.displayMsg("Login unsuccessful: You have entered the wrong details");

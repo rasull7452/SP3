@@ -13,6 +13,7 @@ public class FileIO {
         try {
 
             FileWriter writer = new FileWriter(path);
+
             writer.write(header+"\n");
             for (String s : list) {
                 writer.write(s+"\n");

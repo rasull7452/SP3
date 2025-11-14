@@ -11,6 +11,7 @@ public class App {
 
     static TextUI ui = new TextUI();
     FileIO io = new FileIO();
+    public static User user = new User();
 
     public App() {
 
@@ -18,8 +19,6 @@ public class App {
 
     public static void startApp() {
         ArrayList<String> loginOrCreateUser = new ArrayList<>();
-        User user = new User();
-
         String dirName = "Users";
 
         Path path = Paths.get(dirName);
